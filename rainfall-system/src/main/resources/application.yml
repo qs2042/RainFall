@@ -1,0 +1,143 @@
+# Spring
+spring:
+  # 数据源
+  datasource:
+    url: jdbc:mysql://localhost:3306/erp_system
+    username: root
+    password: zjr.1199
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 连接池的配置
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      filters: stat,wall
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 配置 后台管理页面
+      stat-view-servlet:
+        # 开启, 访问路径
+        enabled: true
+        url-pattern: /druid/*
+        # 是否允许重置数据
+        reset-enable: false
+        # Druid后台的用户名和密码
+        login-username: admin
+        login-password: admin
+        # Druid后台的访问IP白名单, 不能设置 "*"
+        allow: 127.0.0.1,192.168.0.101
+        # Druid后台的访问IP黑名单
+        # deny: 192.168.1.100
+      # 配置 WebStatFilter（StatFilter监控器中的Web模板）
+      web-stat-filter:
+        # 是否开启
+        enabled: true
+        # 映射地址(即统计指定地址的web请求), 排除地址(即不统计的web请求)
+        url-pattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+        # 是否启用session统计, session统计的最大个数(默认1000, 超过这个数就只统计最新的)
+        session-stat-enable: true
+        session-stat-max-count: 1
+        # 所存用户信息的serssion参数名, Druid会依照此参数名读取相应session对应的用户名记录下来（在监控页面可看到）。如果指定参数不是基础数据类型, 将会自动调用相应参数对象的toString方法来取值
+        principal-session-name: userName
+        # 与上类似, 但这是通过Cookie名取到用户信息
+        principal-cookie-name: userName
+        # 监控单个url调用的sql列表
+        profile-enable: true
+      # 配置 Filter
+      #filter:
+      #  wall:
+      #    enabled: true  # 开启SQL防火墙功能
+      #    config:
+      #      select-allow: true # 允许执行Select查询操作
+      #      delete-allow: false # 不允许执行delete操作
+      #      create-table-allow: false # 不允许创建表
+  # session
+  session:
+    store-type: redis
+  # rabbitmq
+  rabbitmq:
+    host: 192.168.56.10
+    port: 5672
+    # 虚拟主机
+    virtual-host: /
+    # 开启发送端发送确认，无论是否到达broker都会触发回调【发送端确认机制+本地事务表】
+    publisher-confirm-type: correlated
+    # 开启发送端抵达队列确认，消息未被队列接收时触发回调【发送端确认机制+本地事务表】
+    publisher-returns: true
+    # 消息在没有被队列接收时是否强行退回
+    template:
+      mandatory: true
+    # 消费者手动确认模式，关闭自动确认，否则会消息丢失
+    listener:
+      simple:
+        acknowledge-mode: manual
+  # jpa
+  jpa:
+    show-sql: false # 默认false,在日志里显示执行的sql语句
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+    hibernate:
+      ddl-auto: update #指定为update,每次启动项目检测表结构有变化的时候会新增字段,表不存在时会 新建,如果指定create,则每次启动项目都会清空数据并删除表,再新建
+      naming:
+        #指定jpa的自动表生成策略,驼峰自动映射为下划线格式7
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    open-in-view: false
+  # data
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
+
+#  cloud:
+#    sentinel:
+#      transport:
+#        # 应用开启端口，接收dashboard限流规则，如果被占用会默认+1
+#        port: 8719
+#        # 控制台ip:port
+#        dashboard: 127.0.0.1:8333
+#  zipkin:
+#    # zipkin服务器的地址
+#    base-url: http://192.168.56.10:9411/
+#    # 关闭服务发现，否则Springcloud会把zipkin当做服务名称
+#    discovery-client-enabled: false
+#    # 数据传输方式
+#    sender:
+#      type: web
+#  sleuth:
+#    sampler:
+#      rate: 1 # 设置抽样采集率 默认为0.1
+
+
+
+# Mybatis
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+
+## 开启feign熔断，开启后能够监控到远程调用资源
+#feign:
+#  sentinel:
+#    enabled: true
+## 审计模块暴露，应用健康情况（配合sentinel dashboard）
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        exclude: '*'
+
+# 开启日志
+logging:
+  level:
+    com.qing.erp: debug
+    # feign调用日志，链路日志
+    org.springframework.cloud.openfeign: debug
+    org.springframework.cloud.sleuth: debug

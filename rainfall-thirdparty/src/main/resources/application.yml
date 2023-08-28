@@ -1,0 +1,8 @@
+qing:
+  sms:
+  alicloud:
+    host: ''
+    path: ''
+    appcode: ''
+    sign: ''
+    skin: ''

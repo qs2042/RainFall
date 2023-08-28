@@ -1,0 +1,109 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        # http://localhost:88/?url=baidu  ->  https://www.baidu.com
+        - id: test_baidu_route
+          uri: https://www.baidu.com
+          predicates:
+            - Query=url,baidu
+
+        # http://localhost:88/?url=qq  ->  https://www.qq.com
+        - id: test_qq_route
+          uri: https://www.qq.com
+          predicates:
+            - Query=url,qq
+
+        # [4] third_party
+        # http://localhost:88/api/third_party/oss/policy -> http://localhost:3000/oss/policy
+        - id: rainfall_third_party
+          uri: lb://rainfall-third-party
+          predicates:
+            - Path=/api/third_party/**
+          filters:
+            - RewritePath=/api/third_party/(?<segment>/?.*), /$\{segment}
+
+        # [4] system
+        - id: rainfall_system
+          uri: lb://rainfall-system
+          predicates:
+            - Path=/api/system/**
+          filters:
+            - RewritePath=/api/system/(?<segment>/?.*), /$\{segment}
+
+        # [4] monitor
+        - id: rainfall_monitor
+          uri: lb://rainfall-monitor
+          predicates:
+            - Path=/api/monitor/**
+          filters:
+            - RewritePath=/api/monitor/(?<segment>/?.*), /$\{segment}
+
+        # [4] search
+        - id: rainfall_search
+          uri: lb://rainfall-search
+          predicates:
+            - Path=/api/search/**
+          filters:
+            - RewritePath=/api/search/(?<segment>/?.*), /$\{segment}
+
+        # [4] member
+        - id: rainfall_member
+          uri: lb://rainfall-member
+          predicates:
+            - Path=/api/member/**
+          filters:
+            - RewritePath=/api/member/(?<segment>/?.*), /$\{segment}
+
+        # [4] oss
+        - id: rainfall_oss
+          uri: lb://rainfall-oss
+          predicates:
+            - Path=/api/oss/**
+          filters:
+            - RewritePath=/api/oss/(?<segment>/?.*), /$\{segment}
+
+        # [4] auth_server
+        - id: rainfall_auth_server
+          uri: lb://rainfall-auth-server
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth/(?<segment>/?.*), /$\{segment}
+
+        # [4] test
+        - id: rainfall_test
+          uri: lb://rainfall-test
+          predicates:
+            - Path=/api/test/**
+          filters:
+            - RewritePath=/api/test/(?<segment>/?.*), /$\{segment}
+
+
+#        - id: mall-product
+#          uri: lb://mall-product
+#          predicates:
+#            - Path=/api/product/**
+#          filters:
+#            - RewritePath=/api/product(?<segment>.*), /product/$\{segment}
+#
+#        - id: renren-fast
+#          uri: lb://renren-fast
+#          predicates:
+#            - Path=/api/**
+#          filters:
+#            - RewritePath=/api/(?<segment>.*), /renren-fast/$\{segment}
+
+
+        # [2] http://localhost:88/api/user/user/login        -> http://localhost:4000/user/login
+        # [2] http://localhost:88/api/user/level/select      -> http://localhost:4000/level/select
+        #- id: video_user
+        #  uri: lb://video-user
+        #  predicates:
+        #    - Path=/api/user/**
+        #  filters:
+        #    - RewritePath=/api/user/(?<segment>/?.*), /$\{segment}
+
+# lb://video-user
+# lb协议=loadBalance=负载均衡
+# 负载均衡到video-user项目中

@@ -1,0 +1,10 @@
+# java
+.idea
+
+/**/target
+
+# vue
+vite-vue-erp/.idea
+vite-vue-erp/.vscode
+vite-vue-erp/dist
+vite-vue-erp/node_modules

@@ -1,0 +1,67 @@
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
+
+.object-fit-cover {
+    object-fit: cover;
+}
+
+
+/* 隐藏滚动条上下箭头 */
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+/* 设置滚动条背景色 */
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+
+/* 设置滚动条滑块的样式 */
+::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px;
+}
+
+/* 设置滚动条的宽度 */
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+
+/*
+bug: 解决antd的表情文字不在一个高度的情况
+message, tag, button的图标会歪
+而input-number的却是正常的
+ */
+
+.ant-bug-img,
+.ant-message-custom-content [role="img"],
+.ant-tag [role="img"],
+.ant-btn [role="img"],
+.anticon-right-circle ,
+.ant-statistic-content-suffix [role="img"],
+.ant-select-selection-item-remove [role="img"],
+.ant-statistic-content-prefix [role="img"] {
+    position: relative;
+    top: -3.2px !important;
+}
+
+
+
+/* 控制antd的卡片组件中的内边距 */
+.ant-card-body-p-0 > .ant-card-body {
+    padding: 0 !important;
+}

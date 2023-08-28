@@ -1,0 +1,39 @@
+.d-flex {
+    display: flex;
+}
+
+.text-shadow-test {
+    /*text-shadow: 0 0 5px #fff,*/
+    /*0 0 10px #fff,*/
+    /*0 0 15px #fff,*/
+    /*0 0 20px #ff00de,*/
+    /*0 0 25px #ff00de,*/
+    /*0 0 30px #ff00de,*/
+    /*0 0 35px #ff00de;*/
+    text-shadow: 0 0 5px #fff,
+    0 0 5px #818181,
+    0 0 10px #fff,
+    0 0 15px #ff00de,
+    0 0 70px #ff00de;
+}
+
+/*.text-shadow-test {
+    position: relative;
+}
+.text-shadow-test::before,
+.text-shadow-test::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: 0 0 20px #ff00de;
+    z-index: -1;
+}
+.text-shadow-test::before {
+    transform: skew(-15deg);
+}
+.text-shadow-test::after {
+    transform: skew(15deg);
+}*/

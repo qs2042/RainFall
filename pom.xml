@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.qing.erp</groupId>
+    <artifactId>erp</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>erp</name>
+    <description>ERP聚合服务</description>
+    <url>https://qs2042.github.io</url>
+
+    <developers>
+        <developer>
+            <name>halfRain</name>
+            <url>https://github.com/qs2042</url>
+            <email>2042136767@qq.com</email>
+        </developer>
+    </developers>
+
+    <!--构建项目环境的前提条件-->
+    <prerequisites>
+        <!-- 所需要的Maven的最低版本 -->
+        <maven>3.6.3</maven>
+    </prerequisites>
+
+    <!-- 项目的问题管理系统的名称和URL(Bugzilla, Jira, Scarab, 等) -->
+    <issueManagement>
+        <system>jira</system>
+
+        <!-- 该项目使用的问题管理系统的URL -->
+        <url>http://jira.baidu.com/banseon</url>
+    </issueManagement>
+
+    <!-- 父项目 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.7</version>
+        <relativePath/>
+    </parent>
+
+    <!-- 模块 -->
+    <modules>
+        <!-- 基础 -->
+        <module>rainfall-common</module>
+        <module>rainfall-module</module>
+
+        <!-- 网关 -->
+        <module>rainfall-gateway</module>
+
+        <!-- 服务 -->
+        <module>rainfall-member</module>
+        <module>rainfall-oss</module>
+        <module>rainfall-search</module>
+        <module>rainfall-system</module>
+        <module>rainfall-thirdparty</module>
+        <module>rainfall-auth-server</module>
+        <module>rainfall-test</module>
+    </modules>
+
+    <!-- ... -->
+    <profiles>
+        <!--开发环境-->
+        <profile>
+            <id>env_dep</id>
+            <properties>
+                <jdbc.url>jdbc:mysql://localhost:3306/erp</jdbc.url>
+            </properties>
+            <!-- 设定是否为默认启动环境 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <!--测试环境-->
+        <profile>
+            <id>env_test</id>
+            <properties>
+                <jdbc.url>jdbc:mysql://localhost:3307/erp</jdbc.url>
+            </properties>
+        </profile>
+        <!--生产环境-->
+        <profile>
+            <id>env_pro</id>
+            <properties>
+                <jdbc.url>jdbc:mysql://localhost:3307/erp</jdbc.url>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <!-- springboot: devtools, 配置处理 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- springCloud: feign, loadbalancer -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+
+        <!-- springCloudAlibaba: nacos(配置中心, 服务注册/服务发现) -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency><!-- 读取bootstrap文件 -->
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!-- ... -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- 依赖管理: 懒加载 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- spring-cloud-alibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2021.1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- spring-cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>2021.0.5</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

@@ -1,0 +1,19 @@
+# default: 默认配置,
+qing:
+  # redis
+  redis:
+    ip: 192.168.126.128
+    port: 6379
+  # docker
+  docker:
+    ip: 192.168.126.128
+    port: 2375
+  # server
+  server:
+    repoUrl: "https://api.github.com/repos/qs2042/RainFall"
+    nginxUrl: "http://localhost/nginx_logs/access_root.log"
+  # thread
+  thread:
+    core-size: 20
+    max-size: 200
+    keep-alive-time: 10

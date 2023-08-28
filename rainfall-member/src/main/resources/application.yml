@@ -1,0 +1,41 @@
+# Spring
+spring:
+  # 数据源
+  datasource:
+    username: root
+    password: zjr.1199
+    url: jdbc:mysql://localhost:3306/erp_member
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    druid:
+      # 连接池的配置
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      filters: stat,wall
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 后台管理页面
+      stat-view-servlet:
+        # 开启
+        enabled: true
+        # 访问路径
+        url-pattern: /druid/*
+        # 设置Druid后台管理页面的用户名和密码
+        login-username: admin
+        login-password: admin
+        # 设置Druid后台管理页面的访问IP白名单
+        allow: 127.0.0.1,192.168.0.101
+        # allow: 127.0.0.1,192.168.1.1
+        # allow: "*"
+        # 设置Druid后台管理页面的访问IP黑名单
+        # deny: 192.168.1.100
+
+# Mybatis
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto

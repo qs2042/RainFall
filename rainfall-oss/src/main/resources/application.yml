@@ -1,0 +1,27 @@
+# spring
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+    tomcat:
+      basedir: /tmp/tomcat
+  mvc:
+    static-path-pattern: /static/**
+
+
+minio:
+  # 连接地址 && 域名
+  endpoint: http://192.168.126.128:9000
+  nginxHost: http://192.168.126.128:9000
+  # 用户名 && 密码
+  accessKey: Rfz1VUraCQSN6Ynx
+  secretKey: jG6r2uDjIXayqpdJLvmtHTeA8goMALuM
+
+#
+oss:
+  # 用户名 && 密码
+  accessKey: Rfz1VUraCQSN6Ynx
+  secretKey: jG6r2uDjIXayqpdJLvmtHTeA8goMALuM

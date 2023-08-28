@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8" />
+  <script src="https://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+  <title></title>
+</head>
+
+<body>
+  <h1>minio</h1>
+  <form id="uploadForm">
+    文件:<input id="file" type="file" name="file" />
+    <input type="submit" value="提交 submit" />
+  </form>
+  <form id="uploadForm" method="post" enctype="multipart/form-data" action="http://localhost:88/api/oss/oss/upload">
+    文件:<input id="file" type="file" name="file" />
+    <input type="submit" value="提交 submit" />
+  </form>
+  <hr>
+
+  <h1>base</h1>
+  <form id="uploadForm" method="post" enctype="multipart/form-data" action="http://localhost:88/api/oss/base/upload">
+    文件:<input id="file" type="file" name="file" />
+    <input type="submit" value="提交 submit" />
+  </form>
+</body>
+<script type="text/javascript">
+  $(function () {
+    // 监听表单提交, 变为异步提交表单
+    $("#uploadForm").on("submit", function (event) {
+      // this代表的就是当前提交表单的DOM对象
+      var form = this;
+      // 用H5的FormData对象对表单数据进行构造
+
+      // 获取file
+      let files = $('#file')[0].files
+      let file = files[0]
+
+      // ...
+      let urlByPresigned = "http://localhost:88/api/oss/oss/uploadByPresigned?objectName=" + file.name
+      $.ajax({
+        url: urlByPresigned,
+        type: "post",
+        async: true,
+        error: (xhr, status, error) => console.log("请求出错!")
+      }).then((data) => {
+        let map = data.data.map
+
+        $.ajax({
+          url: map.host,
+          type: "put",
+          data: file,
+          dataType: "JSON",
+          async: true,
+          //要想用jquery的ajax来提交FormData数据, 则必须要把这两项设为false
+          processData: false,
+          contentType: false,
+          error: (xhr, status, error) => console.log("请求出错!")
+        });
+      })
+
+      //阻止表单的提交事件
+      return false;
+    });
+
+  });
+</script>
+
+</html>
